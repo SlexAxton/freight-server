@@ -65,6 +65,26 @@ module.exports = function (log, conf) {
     });
   };
 
+  FreightRoutes.checkfile = function (req, res) {
+    log.debug('File existence check', req.query);
+    if (req.query.filename) {
+      var hashFile = path.join(conf.get('storage'), req.query.filename);
+      fs.exists(hashFile, function (exists) {
+        if (exists) {
+          log.debug('Found bundle:', hashFile);
+          return res.json({exists: true});
+        } else {
+          log.debug('Bundle does not exist:', hashFile);
+          return res.json({exists: false});
+        }
+      });
+    }
+    else {
+      log.debug('filename not set.');
+      return res.send(404);
+    }
+  };
+
   FreightRoutes.download = function (req, res) {
     log.debug('Download request', req.body);
     if (req.body.hash) {

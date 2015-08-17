@@ -31,6 +31,8 @@ app.post('/freight/check', freightRoutes.check);
 app.post('/freight/download', freightRoutes.download);
 app.post('/freight/track', freightRoutes.track);
 
+app.get('/freight/checkfile', freightRoutes.checkfile);
+
 app.use('/static', express.static(path.join(__dirname, 'static')));
 app.get('/storage/*', freightAuth.middleware, bundleDownload);
 app.get('/', freightAuth.middleware, index);
